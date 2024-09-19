@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]private string levelName;
-    [SerializeField]private GameObject painelMainMenu;
+    //[SerializeField]private GameObject painelMainMenu;
     
     public void LoadScene(string cena)
     {
