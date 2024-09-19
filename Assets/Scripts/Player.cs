@@ -23,8 +23,11 @@ public class Player : MonoBehaviour
     private float[] positions = new float[] { -6f, 0f, 6f }; // Posições: esquerda, centro, direita
     private int currentPositionIndex = 1; // Inicia no centro
 
+    public bool isGameOver = false;
+
     void Start()
     {
+        
         controller = GetComponent<CharacterController>();
         targetXPosition = transform.position.x;
 
@@ -35,10 +38,13 @@ public class Player : MonoBehaviour
         isDead = false;
         isJumping = false;
     }
-
+    
     void Update()
     {
         Vector3 direction = Vector3.forward * speed;
+
+        if (isGameOver)
+            return; // Ignora toda entrada se estiver em Game Over
 
         if (controller.isGrounded)
         {
@@ -102,8 +108,27 @@ public class Player : MonoBehaviour
     // Função para acionar o game over (morte)
     public void Die()
     {
-        isDead = true;
-        animator.SetBool("isDead", true);  // Ativar a animação de morte
+        if (!isDead)
+        {
+            isDead = true;
+
+            StartCoroutine(WaitAndPlayDeathAnimation(0.5f));  // Espera 1 segundo antes de iniciar a animação de morte
+        }
+    }
+
+    private IEnumerator WaitAndPlayDeathAnimation(float waitTime)
+    {
+        // Continua a movimentação normal por 1 segundo
+        yield return new WaitForSeconds(waitTime);
+
+        // Opcionalmente, se quiser parar a movimentação após a animação começar:
+        controller.enabled = false;  // Desativa o controle do personagem após a morte, se necessário
+        isGameOver = true;  //Desativar comandos
+
+        // Após a espera, iniciar a animação de morte
+        animator.SetBool("isDead", true);
+
+        
     }
 
     // Função para colisão com obstáculo
