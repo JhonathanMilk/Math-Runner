@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class GameOverCamera : MonoBehaviour
 {
-    public Transform targetPosition;  // A posição final para onde a câmera vai se mover
+    public Transform targetPosition;  // A posição final para onde a câmera irá após gameover
     public float transitionDuration = 5.0f;  // Tempo de transição
     public Vector3 finalRotation = new Vector3(90f, 0f, 0f);  // Rotação final da câmera (vista de cima)
 
     private void Start()
     {
-        // Nenhuma necessidade de armazenar a posição inicial aqui
+
     }
 
     public void TriggerGameOver()

@@ -61,23 +61,7 @@ public class RespostaTrigger : MonoBehaviour
 
     private void AtivarGameOver()
     {
-        if (gameOverManager != null)
-        {
-            gameOverManager.AtivarGameOverScreen();  // Ativa a tela de Game Over após 1 segundo
-        }
+        gameOverManager.AtivarGameOverScreen();  // Ativa a tela de Game Over após 1 segundo
     }
-    /*
-    void ShowGameOverScreen()
-    {
-        // Ativa a tela de Game Over
-        gameOverScreen.;
-
-        // Aqui, você pode pausar o player ou desativar o controle, mas o cenário continuará ativo
-    }*/
-
-    /*void LoadGameOver ()
-    {
-        SceneManager.LoadScene("GameOver");
-    }*/
 }
 

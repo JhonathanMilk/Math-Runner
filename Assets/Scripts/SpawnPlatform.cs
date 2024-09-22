@@ -13,7 +13,6 @@ public class SpawnPlatform : MonoBehaviour
     private NumberControler controladorDeNumeros;
     private int plataformasRecicladas = 0; // Contador de plataformas recicladas
 
-    // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -29,7 +28,6 @@ public class SpawnPlatform : MonoBehaviour
         currentPlatformPoint = currentPlatforms[platformIndex].GetComponent<Platform>().point;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float distance = player.position.z - currentPlatformPoint.position.z;
@@ -62,7 +60,6 @@ public class SpawnPlatform : MonoBehaviour
             controladorDeNumeros.AtualizarNumerosEOperacoes(); // Atualiza números e operações após reciclar todas as plataformas
             plataformasRecicladas = 0; // Reseta o contador de plataformas recicladas
         }
-
         //controladorDeNumeros.GerarNumerosNosPontos();
     }
 }

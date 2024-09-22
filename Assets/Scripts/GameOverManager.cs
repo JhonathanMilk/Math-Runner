@@ -12,7 +12,7 @@ public class GameOverManager : MonoBehaviour
     {
         if (gameOverScreen != null)
         {
-            gameOverScreen.SetActive(false); // Garante que comece desativado
+            gameOverScreen.SetActive(false); // Garantindo que comece desativado
         }
     }
 

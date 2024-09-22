@@ -17,7 +17,6 @@ public class NumberControler : MonoBehaviour
     private int resultadoCorreto;
     private int resultadoIncorreto;
 
-    // Start is called before the first frame update
     void Start()
     {
         jogador = GameObject.FindGameObjectWithTag("Player").transform;
@@ -25,7 +24,6 @@ public class NumberControler : MonoBehaviour
         GerarNumerosNosPontos();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (jogador.position.z >= ultimaPosicaoGerada + distanciaParaGerarNumero)
@@ -113,13 +111,13 @@ public class NumberControler : MonoBehaviour
                     Debug.LogWarning("Não foi possível encontrar RespostaTrigger no ponto de resultado.");
                 }
             }
-            else
+            /*else
             {
                 // Adiciona o script de verificação da resposta correta ao novo objeto instanciado
                 RespostaTrigger trigger = numeroObj.AddComponent<RespostaTrigger>();
                 trigger.respostaCorreta = respostaCorreta;
                 Debug.Log("Número/Operação: " + valor + ", Resposta Correta: " + respostaCorreta);
-            }
+            }*/
 
             return numeroObj;
         }
