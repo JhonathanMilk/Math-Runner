@@ -108,13 +108,13 @@ public class Player : MonoBehaviour
     }
 
     // Função para acionar o game over (morte)
-    public void Die()
+    public void Die(float waitTime)
     {
         if (!isDead)
         {
             isDead = true;
 
-            StartCoroutine(WaitAndPlayDeathAnimation(0.5f));  // Espera 1 segundo antes de iniciar a animação de morte
+            StartCoroutine(WaitAndPlayDeathAnimation(waitTime));  // Espera "waitTime" tempo antes de iniciar a animação de morte
         }
     }
 

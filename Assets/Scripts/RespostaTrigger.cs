@@ -41,7 +41,7 @@ public class RespostaTrigger : MonoBehaviour
                 // Jogador escolheu errado
                 
                 Debug.Log("Incorreto reposta! Game Over.");
-                player.Die();  // Aciona a animação de morte
+                player.Die(0.5f);  // Aciona a animação de morte
 
                 if (gameOverManager == null)
                 {

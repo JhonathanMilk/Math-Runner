@@ -12,6 +12,7 @@ public class SpawnPlatform : MonoBehaviour
     private int platformIndex;
     private NumberControler controladorDeNumeros;
     private int plataformasRecicladas = 0; // Contador de plataformas recicladas
+    ObstacleSpawner obstacleSpawner;
 
     void Start()
     {
@@ -20,12 +21,25 @@ public class SpawnPlatform : MonoBehaviour
 
         for(int i = 0 ; i < platforms.Count; i++)
         {
-            Transform p = Instantiate(platforms[i], new Vector3(0, 0, i * 86), transform.rotation).transform;
+            Transform p = Instantiate(platforms[i], new Vector3(0, 0, i * 263), transform.rotation).transform;
             currentPlatforms.Add(p);
-            offset += 86;
+            offset += 263;
+
+            if (!p.gameObject.activeSelf)
+            {
+                Debug.LogWarning("Plataforma instanciada, mas está desativada! Ativando manualmente.");
+                p.gameObject.SetActive(true);
+            }
         }
         controladorDeNumeros.AtualizarPontosDeGeracao();
-        currentPlatformPoint = currentPlatforms[platformIndex].GetComponent<Platform>().point;
+        currentPlatformPoint = currentPlatforms[platformIndex].transform.GetChild(2).GetComponent<Platform>().point;
+
+        // Após instanciar e ativar as plataformas, avisa o ObstacleSpawner
+        obstacleSpawner = FindObjectOfType<ObstacleSpawner>();
+        if (obstacleSpawner != null)
+        {
+            obstacleSpawner.InitializeObstacleSpawning();
+        }
     }
 
     void Update()
@@ -42,24 +56,22 @@ public class SpawnPlatform : MonoBehaviour
                 platformIndex = 0;
             }
 
-            currentPlatformPoint = currentPlatforms[platformIndex].GetComponent<Platform>().point;
+            currentPlatformPoint = currentPlatforms[platformIndex].transform.GetChild(2).GetComponent<Platform>().point;
+            
         }
     }
 
     public void Recycle(GameObject platform)
     {
-        //controladorDeNumeros.LimparNumerosAposPassar(player);
+        // Limpa somente os pontos da plataforma reciclada
+        controladorDeNumeros.LimparNumerosEOperacoes(platform);
 
         platform.transform.position = new Vector3(0, 0, offset);
-        //controladorDeNumeros.MoverPontosDeGeracao(platform.transform, offset); // Mover os pontos de geração junto com a plataforma
-        offset += 86;
 
-        plataformasRecicladas++;
-        if (plataformasRecicladas >= currentPlatforms.Count)
-        {
-            controladorDeNumeros.AtualizarNumerosEOperacoes(); // Atualiza números e operações após reciclar todas as plataformas
-            plataformasRecicladas = 0; // Reseta o contador de plataformas recicladas
-        }
-        //controladorDeNumeros.GerarNumerosNosPontos();
+        offset += 263;
+
+        // Atualiza os números e operações apenas nos pontos dessa plataforma reciclada
+        controladorDeNumeros.GerarNumerosNosPontos();
+        obstacleSpawner.ReposicionarObstaculosNaPlataforma(platform.transform);
     }
 }

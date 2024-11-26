@@ -7,6 +7,8 @@ TagManager:
   - PontoDeGeracao
   - ResultPoint
   - GameOverManager
+  - Platform
+  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -21,7 +21,6 @@ public class NumberControler : MonoBehaviour
     {
         jogador = GameObject.FindGameObjectWithTag("Player").transform;
         AtualizarPontosDeGeracao();
-        GerarNumerosNosPontos();
     }
 
     void Update()
@@ -33,14 +32,7 @@ public class NumberControler : MonoBehaviour
         }
     }
 
-    public void AtualizarNumerosEOperacoes()
-    {
-        LimparNumerosEOperacoes();
-        AtualizarPontosDeGeracao();
-        GerarNumerosNosPontos(); // Atualiza com novos números e operações
-    }
-
-    void LimparNumerosEOperacoes()
+    public void LimparNumerosEOperacoes(GameObject platform)
     {
         foreach (Transform ponto in pontosDeGeracao)
         {
@@ -54,37 +46,44 @@ public class NumberControler : MonoBehaviour
     // Função para instanciar números nos pontos de geração
     public void GerarNumerosNosPontos()
     {
-        // Gerar a operação primeiro
-        GerarOperacao();
-
-        // Para exibir o primeiro número
-        if (pontosDeGeracao.Count >= 3)
+        int numeroDePontos = pontosDeGeracao.Count;
+        
+        for (int i = 0; i < numeroDePontos; i += 5) // Processa a cada 5 pontos
         {
-            InstanciarNumeroOuOperacao(pontosDeGeracao[0], primeiroNumero.ToString());
-            InstanciarNumeroOuOperacao(pontosDeGeracao[1], operacao); // Exibir a operação
-            InstanciarNumeroOuOperacao(pontosDeGeracao[2], segundoNumero.ToString());
+            // Gerar a operação uma vez para o conjunto de 5 pontos
+            GerarOperacao();
 
-            // Gerar opções de respostas (esquerda e direita)
-            if (pontosDeGeracao.Count >= 5)
+            // Verificar se há pelo menos 5 pontos disponíveis
+            if (i + 4 < numeroDePontos)
             {
-                // Randomizar a posição da resposta correta
+                // Exibir o primeiro número no primeiro ponto do conjunto
+                InstanciarNumeroOuOperacao(pontosDeGeracao[i], primeiroNumero.ToString());
+
+                // Exibir a operação no segundo ponto
+                InstanciarNumeroOuOperacao(pontosDeGeracao[i + 1], operacao);
+
+                // Exibir o segundo número no terceiro ponto
+                InstanciarNumeroOuOperacao(pontosDeGeracao[i + 2], segundoNumero.ToString());
+
+                // Gerar opções de respostas (correta e incorreta)
                 bool respostaCorretaNaEsquerda = Random.Range(0, 2) == 0;
 
                 if (respostaCorretaNaEsquerda)
                 {
-                    // Resposta correta na direita, incorreta na esquerda
-                    InstanciarNumeroOuOperacao(pontosDeGeracao[3], resultadoCorreto.ToString(), true);
-                    InstanciarNumeroOuOperacao(pontosDeGeracao[4], resultadoIncorreto.ToString(), false);
+                    // Resposta correta na esquerda, incorreta na direita
+                    InstanciarNumeroOuOperacao(pontosDeGeracao[i + 3], resultadoCorreto.ToString(), true);
+                    InstanciarNumeroOuOperacao(pontosDeGeracao[i + 4], resultadoIncorreto.ToString(), false);
                 }
                 else
                 {
-                    // Resposta correta na esquerda, incorreta na direita
-                    InstanciarNumeroOuOperacao(pontosDeGeracao[3], resultadoIncorreto.ToString(), false);
-                    InstanciarNumeroOuOperacao(pontosDeGeracao[4], resultadoCorreto.ToString(), true);
+                    // Resposta incorreta na esquerda, correta na direita
+                    InstanciarNumeroOuOperacao(pontosDeGeracao[i + 3], resultadoIncorreto.ToString(), false);
+                    InstanciarNumeroOuOperacao(pontosDeGeracao[i + 4], resultadoCorreto.ToString(), true);
                 }
             }
         }
     }
+
 
     GameObject InstanciarNumeroOuOperacao(Transform ponto, string valor, bool respostaCorreta = false)
     {
